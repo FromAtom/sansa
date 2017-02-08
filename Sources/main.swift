@@ -2,24 +2,26 @@ import Foundation
 
 import Kitura
 import HeliumLogger
-import KituraMustache
+import KituraStencil
 
 // HeliumLoggerを初期化
 HeliumLogger.use()
 
 let router = Router()
-router.add(templateEngine: MustacheTemplateEngine())
+router.setDefault(templateEngine: StencilTemplateEngine())
 
 router.get("/") { request, response, next in
-	defer {
-		next()
-	}
+	defer { next() }
 
 	let context: [String : Any] = [
-		"comment": "こんちわ"
+		"comment" : "テストです。"
 	]
 
-	try response.render("index.mustache", context: context).end()
+	do {
+		try response.render("index", context: context)
+	} catch {
+		try response.send(status: .internalServerError).end()
+	}
 }
 
 // Herokuでポート番号が変えられるようにする
