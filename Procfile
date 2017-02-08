@@ -1,1 +1,1 @@
-echo web: .build/release/sansa > Procfile
+web: .build/release/sansa
