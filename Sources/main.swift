@@ -9,6 +9,7 @@ HeliumLogger.use()
 
 let router = Router()
 router.setDefault(templateEngine: StencilTemplateEngine())
+router.all("/public", middleware: StaticFileServer())
 
 router.get("/") { request, response, next in
 	defer { next() }
