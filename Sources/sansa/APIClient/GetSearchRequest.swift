@@ -14,6 +14,7 @@ struct GetSearchRequest: GuideboxAPIRequestType {
 	let path: String = "/search"
 	var query: [String : String] {
 		return [
+			"region" : "JP",
 			"type" : "movie",
 			"field" : "title",
 			"query" : keyword

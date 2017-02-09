@@ -9,21 +9,23 @@ import SwiftyBeaver
 let log = SwiftyBeaver.self
 log.addDestination(ConsoleDestination())
 
-let request = GetSearchRequest(keyword: "Terminator").request
-let task = URLSession.shared.dataTask(with: request) { data, response, error in
-	guard let data = data else {
-		return
-	}
+let session = URLSession(configuration: URLSessionConfiguration.default)
 
-	do {
-		let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-		let results = try SearchResultsModel.decode(json)
-
-	} catch {
-		print("parse error!")
-	}
-}
-task.resume()
+//let request = GetSearchRequest(keyword: "terminator").request
+//let task = URLSession.shared.dataTask(with: request) { data, response, error in
+//	guard let data = data else {
+//		return
+//	}
+//
+//	do {
+//		let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+//		let results = try SearchResultsModel.decode(json)
+//		log.debug(results)
+//	} catch {
+//		print("parse error!")
+//	}
+//}
+//task.resume()
 
 // HeliumLoggerを初期化
 HeliumLogger.use()
@@ -46,6 +48,36 @@ router.get("/") { request, response, next in
 	} catch {
 		try response.send(status: .internalServerError).end()
 	}
+}
+
+router.get("/search") { request, response, next in
+	let q = request.queryParameters["q"] ?? ""
+	let req = GetSearchRequest(keyword: q).request
+	let task = session.dataTask(with: req, completionHandler: { (data, res, error) in
+		guard let data = data else {
+			return
+		}
+		guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+			return
+		}
+		guard let results = try? SearchResultsModel.decode(json) else {
+			return
+		}
+		let context: [String : Any] = [
+			"keyword" : q,
+			"results" : results.results ?? []
+		]
+		do {
+			try response.render("search", context: context)
+			next()
+		} catch {
+			next()
+			return
+		}
+	})
+	task.resume()
+
+
 }
 
 let port: Int = Int(ProcessInfo.processInfo.environment["PORT"] ?? "8090") ?? 8090
