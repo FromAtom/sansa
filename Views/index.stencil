@@ -4,7 +4,10 @@
   <meta charSet='utf-8' />
   <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
   <!-- <meta name='viewport' content='hogehoge' /> -->
-  <link rel="stylesheet" type="text/css" href="/public/main.css">
+
+  <link rel=”shortcut icon” href=”/favicon.ico” />
+  <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
   <h1>{{ comment }}</h1>

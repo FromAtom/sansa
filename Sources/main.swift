@@ -9,10 +9,12 @@ HeliumLogger.use()
 
 let router = Router()
 router.setDefault(templateEngine: StencilTemplateEngine())
-router.all("/public", middleware: StaticFileServer())
+router.all("/css", middleware: StaticFileServer(path: "./Public/Stylesheets", options: StaticFileServer.Options(), customResponseHeadersSetter: nil))
 
 router.get("/") { request, response, next in
-	defer { next() }
+	defer {
+		next()
+	}
 
 	let context: [String : Any] = [
 		"comment" : "テストです。"
@@ -25,9 +27,6 @@ router.get("/") { request, response, next in
 	}
 }
 
-// Herokuでポート番号が変えられるようにする
 let port: Int = Int(ProcessInfo.processInfo.environment["PORT"] ?? "8090") ?? 8090
-
 Kitura.addHTTPServer(onPort: port, with: router)
-
 Kitura.run()
