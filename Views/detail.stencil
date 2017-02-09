@@ -1,0 +1,22 @@
+<html lang="ja">
+<head>
+  <title>sansa</title>
+  <meta charSet='utf-8' />
+  <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
+  <!-- <meta name='viewport' content='hogehoge' /> -->
+
+  <link rel=”shortcut icon” href=”/favicon.ico” />
+  <link rel="stylesheet" type="text/css" href="/css/reset.css">
+  <link rel="stylesheet" type="text/css" href="/css/main.css">
+</head>
+<body>
+  <h1>{{ movie.title }}</h1>
+  <ui>
+  {% for source in movie.sources %}
+    <li>
+      <a href="{{ source.link }}">{{ source.displayName }}</a>
+    </li>
+  {% endfor %}
+  </ui>
+</body>
+</html>

@@ -14,11 +14,7 @@ struct GetMoviesWithIDRequest: GuideboxAPIRequestType {
 	var path: String {
 		return "/movies/\(id)"
 	}
-	var query: [String : String] {
-		return [
-			"region" : "JP",
-		]
-	}
+	let query: [String : String] = [:]
 	var request: URLRequest {
 		guard var components = URLComponents(string: endpoint) else {
 			fatalError()

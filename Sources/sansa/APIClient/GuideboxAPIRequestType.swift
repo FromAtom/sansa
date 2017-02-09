@@ -47,7 +47,7 @@ extension GuideboxAPIRequestType {
 	var headers: [String : String] {
 		return [
 			"Authorization" : apiKey,
-			"Guidebox-Region" : "JP"
+			//"Guidebox-Region" : "JP"
 		]
 	}
 

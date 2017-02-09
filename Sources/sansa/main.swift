@@ -94,7 +94,20 @@ router.get("/detail/:id") { request, response, next in
 		guard let json = try? JSONSerialization.jsonObject(with: object, options: .allowFragments) else {
 			return
 		}
-		log.debug(json)
+		guard let movieDetail = try? MovieDetailModel(object: json) else {
+			return
+		}
+
+		let context: [String : Any] = [
+			"movie" : movieDetail
+		]
+		do {
+			try response.render("detail", context: context)
+			next()
+		} catch {
+			try? response.send(status: .internalServerError).end()
+			return
+		}
 	})
 	task.resume()
 }
