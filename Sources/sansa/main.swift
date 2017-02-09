@@ -3,7 +3,6 @@ import Foundation
 import Kitura
 import HeliumLogger
 import KituraStencil
-import Decodable
 import SwiftyBeaver
 
 let log = SwiftyBeaver.self
@@ -53,19 +52,20 @@ router.get("/") { request, response, next in
 router.get("/search") { request, response, next in
 	let q = request.queryParameters["q"] ?? ""
 	let req = GetSearchRequest(keyword: q).request
-	let task = session.dataTask(with: req, completionHandler: { (data, res, error) in
-		guard let data = data else {
+	let task = session.dataTask(with: req, completionHandler: { object, res, error in
+		guard let object = object else {
 			return
 		}
-		guard let json = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) else {
+		guard let json = try? JSONSerialization.jsonObject(with: object, options: .allowFragments) else {
 			return
 		}
-		guard let results = try? SearchResultsModel.decode(json) else {
+		guard let results = try? SearchResultsModel(object: json).results else {
 			return
 		}
+		log.debug(results)
 		let context: [String : Any] = [
 			"keyword" : q,
-			"results" : results.results ?? []
+			"results" : results
 		]
 		do {
 			try response.render("search", context: context)
@@ -74,6 +74,22 @@ router.get("/search") { request, response, next in
 			next()
 			return
 		}
+
+
+//		guard let results = try? SearchResultsModel.decode(json) else {
+//			return
+//		}
+//		let context: [String : Any] = [
+//			"keyword" : q,
+//			"results" : results.results ?? []
+//		]
+//		do {
+//			try response.render("search", context: context)
+//			next()
+//		} catch {
+//			next()
+//			return
+//		}
 	})
 	task.resume()
 

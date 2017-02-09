@@ -6,28 +6,28 @@
 //
 //
 
-import Decodable
+import Foundation
 
 struct SearchResultModel {
 	let id: Int
 	let title: String
 	let releaseYear: Int
 	let poster120x171: String
-	let poster240x342: String
-	let poster400x570: String
-}
+//	let poster240x342: String
+//	let poster400x570: String
 
-extension SearchResultModel: Decodable {
+	init(object: Any) throws {
+		guard let dictionary = object as? [String : Any],
+			let id = dictionary["id"] as? Int,
+			let title = dictionary["title"] as? String,
+			let releaseYear = dictionary["release_year"] as? Int,
+			let poster120x171 = dictionary["poster_120x171"] as? String else {
+				throw ResponseError.unexpectedObject(object)
+		}
 
-	static func decode(_ json: Any) throws -> SearchResultModel {
-		return try SearchResultModel(
-			id: json => "id",
-			title: json => "title",
-			releaseYear: json => "release_year",
-			poster120x171: json => "poster_120x171",
-			poster240x342: json => "poster_240x342",
-			poster400x570: json => "poster_400x570"
-		)
+		self.id = id
+		self.title = title
+		self.releaseYear = releaseYear
+		self.poster120x171 = poster120x171
 	}
-
 }

@@ -6,20 +6,29 @@
 //
 //
 
-import Decodable
+import Foundation
 
 struct SearchResultsModel {
-	let results: [SearchResultModel]?
+	let results: [SearchResultModel]
 	let error: String?
-}
 
-extension SearchResultsModel: Decodable {
+	init(object: Any) throws {
+		guard let dictionary = object as? [String : Any] else {
+			throw ResponseError.unexpectedObject(object)
+		}
+		var results: [SearchResultModel] = []
+		let buffer = dictionary["results"] as? [[String : Any]] ?? []
+		for buf in buffer {
+			guard let result = try? SearchResultModel(object: buf) else {
+				continue
+			}
+			results.append(result)
+		}
 
-	static func decode(_ json: Any) throws -> SearchResultsModel {
-		return try SearchResultsModel(
-			results: json =>? "results",
-			error: json =>? "error"
-		)
+		let error = dictionary["error"] as? String
+
+		self.results = results
+		self.error = error
 	}
 
 }
