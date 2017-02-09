@@ -10,10 +10,11 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css">
 </head>
 <body>
-  <h1>{{ comment }}</h1>
-  <form action="/search" method="get">
-    <input type="text" name="q"></label>
-    <input type="submit" value="検索">
-  </form>
+  <h1>{{ keyword }} の検索結果は {{ results.count }} 件です。</h1>
+  <ul>
+  {% for result in results %}
+    <li>{{ result.title }}</li>
+  {% endfor %}
+  </ul>
 </body>
 </html>
