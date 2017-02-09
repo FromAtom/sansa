@@ -9,13 +9,23 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
-  <h1>{{ movie.title }}</h1>
+  <div class="wrap content">
+    <img class="detail" src="{{ movie.poster240x342 }}" />
+    <div class="information">
+      <h1>{{ movie.title }}</h1>
+      <div class="source-links">
+      {% for source in movie.sources %}
+        <a href="{{ source.link }}">
+          <span class="label success bold">{{ source.displayName }}</span>
+        </a>
+      {% endfor %}
+    </div>
+    </div>
+
+  </div>
+
+  <!-- <h1>{{ movie.title }}</h1>
   <ui>
-  {% for source in movie.sources %}
-    <li>
-      <a href="{{ source.link }}">{{ source.displayName }}</a>
-    </li>
-  {% endfor %}
-  </ui>
+  </ui> -->
 </body>
 </html>

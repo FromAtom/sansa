@@ -20,7 +20,7 @@
           <a href="/detail/{{ result.id }}">
             <img src="{{ result.poster240x342 }}" />
             <div class="info">
-              <h4>{{ result.title }}</h4>
+              <h2>{{ result.title }}</h4>
             </div>
           </a>
         </div>

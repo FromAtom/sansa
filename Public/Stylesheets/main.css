@@ -17,6 +17,12 @@
     margin-bottom: 50px;
 }
 
+div.cover-image {
+  background-size: cover;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
+  height: 100%;
+}
 
 .search-forms {
   margin: 30px 10px;
@@ -44,6 +50,20 @@ div.article img {
   object-fit: cover;
   height: 342px;
   width: 100%;
+}
+
+img.detail {
+  display: block;
+  margin-top: 50px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -10px;
+  height: auto;
+  width: 30%;
+}
+
+.source-links {
+  margin-top: 30px;
 }
 
 div.info {
