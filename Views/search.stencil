@@ -6,17 +6,23 @@
   <!-- <meta name='viewport' content='hogehoge' /> -->
 
   <link rel=”shortcut icon” href=”/favicon.ico” />
-  <link rel="stylesheet" type="text/css" href="/css/reset.css">
-  <link rel="stylesheet" type="text/css" href="/css/main.css">
+  <link rel="stylesheet" type="text/css" href="/css/kube.min.css" />
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+  <script src="/js/kube.min.js" type="text/javascript"/></script>
 </head>
 <body>
-  <h1>{{ keyword }} の検索結果は {{ results.count }} 件です。</h1>
-  <ul>
-  {% for result in results %}
-    <li>
-      <a href="/detail/{{ result.id }}">{{ result.title }}</a>
-    </li>
-  {% endfor %}
-  </ul>
+  <div class="container">
+    <div class="information">
+      <h2>{{ keyword }} の検索結果は {{ results.count }} 件です。</h2>
+    </div>
+    <div id="media-grid">
+      {% for result in results %}
+        <a href="/detail/{{ result.id }}"></a>
+          <img src="{{ result.poster120x171 }}" />
+          <p>{{ result.title }}</p>
+      {% endfor %}
+    </div>
+  </div>
 </body>
 </html>

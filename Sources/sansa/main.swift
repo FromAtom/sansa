@@ -10,28 +10,13 @@ log.addDestination(ConsoleDestination())
 
 let session = URLSession(configuration: URLSessionConfiguration.default)
 
-//let request = GetSearchRequest(keyword: "terminator").request
-//let task = URLSession.shared.dataTask(with: request) { data, response, error in
-//	guard let data = data else {
-//		return
-//	}
-//
-//	do {
-//		let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
-//		let results = try SearchResultsModel.decode(json)
-//		log.debug(results)
-//	} catch {
-//		print("parse error!")
-//	}
-//}
-//task.resume()
-
 // HeliumLoggerを初期化
 HeliumLogger.use()
 
 let router = Router()
 router.setDefault(templateEngine: StencilTemplateEngine())
 router.all("/css", middleware: StaticFileServer(path: "./Public/Stylesheets", options: StaticFileServer.Options(), customResponseHeadersSetter: nil))
+router.all("/js", middleware: StaticFileServer(path: "./Public/Javascript", options: StaticFileServer.Options(), customResponseHeadersSetter: nil))
 
 router.get("/") { request, response, next in
 	defer {
