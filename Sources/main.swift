@@ -4,6 +4,8 @@ import Kitura
 import HeliumLogger
 import KituraStencil
 
+HuluSearcher.sharedSearcher.search(query: "クレヨン")
+
 // HeliumLoggerを初期化
 HeliumLogger.use()
 
