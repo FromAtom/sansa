@@ -53,6 +53,12 @@ div.article img {
 }
 
 img.detail {
+  border: 1px solid #cccccc;
+
+  box-shadow:0px 0px 9px 2px #bfbfbf;
+  -moz-box-shadow:0px 0px 9px 2px #bfbfbf;
+  -webkit-box-shadow:0px 0px 9px 2px #bfbfbf;
+
   display: block;
   margin-top: 50px;
   margin-left: auto;
