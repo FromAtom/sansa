@@ -13,7 +13,9 @@
   <h1>{{ keyword }} の検索結果は {{ results.count }} 件です。</h1>
   <ul>
   {% for result in results %}
-    <li>{{ result.title }}</li>
+    <li>
+      <a href="/detail/{{ result.id }}">{{ result.title }}</a>
+    </li>
   {% endfor %}
   </ul>
 </body>

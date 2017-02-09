@@ -86,7 +86,17 @@ router.get("/detail/:id") { request, response, next in
 		return
 	}
 
-	log.debug(id)
+	let req = GetMoviesWithIDRequest(id: id).request
+	let task = session.dataTask(with: req, completionHandler: { object, res, error in
+		guard let object = object else {
+			return
+		}
+		guard let json = try? JSONSerialization.jsonObject(with: object, options: .allowFragments) else {
+			return
+		}
+		log.debug(json)
+	})
+	task.resume()
 }
 
 let port: Int = Int(ProcessInfo.processInfo.environment["PORT"] ?? "8090") ?? 8090
