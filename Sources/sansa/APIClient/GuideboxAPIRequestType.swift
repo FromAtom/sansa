@@ -7,17 +7,29 @@
 //
 
 import Foundation
-import APIKit
-import Decodable
 
-protocol GuideboxAPIRequestType: Request {
+enum HTTPMethod: String {
+	case get = "GET"
+	case post = "POST"
+}
+
+protocol GuideboxAPIRequestType {
+	var baseURL: URL { get }
+	var endpoint: String { get }
+	var path: String { get }
 	var apiKey: String { get }
+	var headers: [String : String] { get }
+	var query: [String : String] { get }
+	var method: HTTPMethod { get }
 }
 
 extension GuideboxAPIRequestType {
 
+	var endpoint: String {
+		return "http://api-public.guidebox.com/v2"
+	}
+
 	var baseURL: URL {
-		let endpoint: String = "http://api-public.guidebox.com/v2"
 		return URL(string: endpoint)!
 	}
 
@@ -30,12 +42,13 @@ extension GuideboxAPIRequestType {
 		return key
 	}
 
-	func intercept(urlRequest: URLRequest) throws -> URLRequest {
-		var request = urlRequest
-
-		request.setValue("Bearer " + apiKey, forHTTPHeaderField: "Authorization")
-		request.setValue("JP", forHTTPHeaderField: "Guidebox-Region")
-		return request
+	var headers: [String : String] {
+		//"Bearer " + 
+		return [
+			"Authorization" : apiKey,
+			"Guidebox-Region" : "JP"
+		]
 	}
 
 }
+

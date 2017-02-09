@@ -3,76 +3,27 @@ import Foundation
 import Kitura
 import HeliumLogger
 import KituraStencil
-import APIKit
 import Decodable
 import SwiftyBeaver
 
 let log = SwiftyBeaver.self
 log.addDestination(ConsoleDestination())
 
-let request = GetSearchRequest(keyword: "Terminator")
-log.debug(request.baseURL)
-Session.send(request) { result in
-	print("aaa")
-	switch result {
-	case .success(let response):
-		log.debug(response)
-	case .failure(let error):
-		log.error(error)
+let request = GetSearchRequest(keyword: "Terminator").request
+let task = URLSession.shared.dataTask(with: request) { data, response, error in
+	guard let data = data else {
+		return
+	}
+
+	do {
+		let json = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+		let results = try SearchResultsModel.decode(json)
+
+	} catch {
+		print("parse error!")
 	}
 }
-log.debug("aaa")
-
-
-
-struct RateLimitRequest: Request {
-	typealias Response = RateLimit
-
-	var baseURL: URL {
-		return URL(string: "https://api.github.com")!
-	}
-
-	var method: HTTPMethod {
-		return .get
-	}
-
-	var path: String {
-		return "/rate_limit"
-	}
-
-	func response(from object: Any, urlResponse: HTTPURLResponse) throws -> RateLimit {
-		return try RateLimit(object: object)
-	}
-}
-
-struct RateLimit {
-	let limit: Int
-	let remaining: Int
-
-	init(object: Any) throws {
-		guard let dictionary = object as? [String: Any],
-			let rateDictionary = dictionary["rate"] as? [String: Any],
-			let limit = rateDictionary["limit"] as? Int,
-			let remaining = rateDictionary["remaining"] as? Int else {
-				throw ResponseError.unexpectedObject(object)
-		}
-
-		self.limit = limit
-		self.remaining = remaining
-	}
-}
-
-let hoge = RateLimitRequest()
-Session.send(hoge) { result in
-	log.debug("hhh")
-	switch result {
-	case .success(let response):
-		log.debug(response)
-	case .failure(let error):
-		log.error(error)
-	}
-}
-log.flush(secondTimeout: 0)
+task.resume()
 
 // HeliumLoggerを初期化
 HeliumLogger.use()
