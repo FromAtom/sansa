@@ -23,7 +23,7 @@ router.get("/") { request, response, next in
 	}
 
 	let context: [String : Any] = [
-		"comment" : "テストです。"
+		"comment" : "sansa"
 	]
 
 	do {

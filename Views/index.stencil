@@ -9,11 +9,15 @@
   <link rel="stylesheet" type="text/css" href="/css/main.css" />
 </head>
 <body>
-  <h1>{{ comment }}</h1>
-
-  <form action="/search" method="get">
-    <input type="text" name="q"></label>
-    <input type="submit" value="検索">
-  </form>
+  <div class="wrap content">
+    <div class="information">
+      <h2>{{ comment }}</h2>
+      <form class="form" action="/search" method="get">
+          <div class="form-item">
+              <input type="text" class="search" name="q" placeholder="search movie">
+          </div>
+      </form>
+    </div>
+  </div>
 </body>
 </html>
