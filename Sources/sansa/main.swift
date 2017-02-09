@@ -59,10 +59,11 @@ router.get("/search") { request, response, next in
 		guard let json = try? JSONSerialization.jsonObject(with: object, options: .allowFragments) else {
 			return
 		}
+		log.debug(json)
 		guard let results = try? SearchResultsModel(object: json).results else {
 			return
 		}
-		log.debug(results)
+
 		let context: [String : Any] = [
 			"keyword" : q,
 			"results" : results
