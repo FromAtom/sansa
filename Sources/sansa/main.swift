@@ -16,7 +16,6 @@ HeliumLogger.use()
 let router = Router()
 router.setDefault(templateEngine: StencilTemplateEngine())
 router.all("/css", middleware: StaticFileServer(path: "./Public/Stylesheets", options: StaticFileServer.Options(), customResponseHeadersSetter: nil))
-router.all("/js", middleware: StaticFileServer(path: "./Public/Javascript", options: StaticFileServer.Options(), customResponseHeadersSetter: nil))
 
 router.get("/") { request, response, next in
 	defer {

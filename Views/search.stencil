@@ -1,28 +1,40 @@
 <html lang="ja">
 <head>
   <title>sansa</title>
-  <meta charSet='utf-8' />
-  <meta httpEquiv='X-UA-Compatible' content='IE=edge' />
-  <!-- <meta name='viewport' content='hogehoge' /> -->
+  <meta charset="utf-8">
+  <meta content="IE=edge" http-equiv="X-UA-Compatible">
+  <meta content="width=device-width, initial-scale=1" name="viewport">
 
-  <link rel=”shortcut icon” href=”/favicon.ico” />
   <link rel="stylesheet" type="text/css" href="/css/kube.min.css" />
   <link rel="stylesheet" type="text/css" href="/css/main.css" />
-  <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
-  <script src="/js/kube.min.js" type="text/javascript"/></script>
 </head>
 <body>
-  <div class="container">
+  <div class="wrap content">
     <div class="information">
-      <h2>{{ keyword }} の検索結果は {{ results.count }} 件です。</h2>
+      <h2>{{ keyword }} の検索結果</h2>
     </div>
-    <div id="media-grid">
+    <div class="result">
+      <blocks cols="4">
+        {% for result in results %}
+        <div class="article">
+          <a href="/detail/{{ result.id }}">
+            <img src="{{ result.poster240x342 }}" />
+            <div class="info">
+              <h4>{{ result.title }}</h4>
+            </div>
+          </a>
+        </div>
+        {% endfor %}
+      </blocks>
+    </div>
+
+    <!-- <div id="media-grid">
       {% for result in results %}
         <a href="/detail/{{ result.id }}"></a>
           <img src="{{ result.poster120x171 }}" />
           <p>{{ result.title }}</p>
       {% endfor %}
-    </div>
+    </div> -->
   </div>
 </body>
 </html>
