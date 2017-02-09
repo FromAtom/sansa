@@ -17,7 +17,7 @@ struct GetSearchRequest: GuideboxAPIRequestType {
 			"region" : "JP",
 			"type" : "movie",
 			"field" : "title",
-			"query" : keyword
+			"query" : uriEncode(keyword)
 		]
 	}
 	var request: URLRequest {

@@ -21,6 +21,8 @@ protocol GuideboxAPIRequestType {
 	var headers: [String : String] { get }
 	var query: [String : String] { get }
 	var method: HTTPMethod { get }
+
+	func uriEncode(_ str: String) -> String
 }
 
 extension GuideboxAPIRequestType {
@@ -43,11 +45,14 @@ extension GuideboxAPIRequestType {
 	}
 
 	var headers: [String : String] {
-		//"Bearer " + 
 		return [
 			"Authorization" : apiKey,
 			"Guidebox-Region" : "JP"
 		]
+	}
+
+	func uriEncode(_ str: String) -> String {
+		return str.addingPercentEncoding(withAllowedCharacters: .alphanumerics) ?? ""
 	}
 
 }

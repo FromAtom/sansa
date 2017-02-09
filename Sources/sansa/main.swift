@@ -59,7 +59,6 @@ router.get("/search") { request, response, next in
 		guard let json = try? JSONSerialization.jsonObject(with: object, options: .allowFragments) else {
 			return
 		}
-		log.debug(json)
 		guard let results = try? SearchResultsModel(object: json).results else {
 			return
 		}
@@ -72,29 +71,22 @@ router.get("/search") { request, response, next in
 			try response.render("search", context: context)
 			next()
 		} catch {
-			next()
+			try? response.send(status: .internalServerError).end()
 			return
 		}
-
-
-//		guard let results = try? SearchResultsModel.decode(json) else {
-//			return
-//		}
-//		let context: [String : Any] = [
-//			"keyword" : q,
-//			"results" : results.results ?? []
-//		]
-//		do {
-//			try response.render("search", context: context)
-//			next()
-//		} catch {
-//			next()
-//			return
-//		}
 	})
 	task.resume()
+}
 
+router.get("/detail/:id") { request, response, next in
+	guard
+		let idString = request.parameters["id"],
+		let id = Int(idString) else {
+		try response.send(status: .badRequest).end()
+		return
+	}
 
+	log.debug(id)
 }
 
 let port: Int = Int(ProcessInfo.processInfo.environment["PORT"] ?? "8090") ?? 8090
